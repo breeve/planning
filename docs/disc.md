@@ -1,2 +1,0 @@
-- <https://docs.trae.cn/ide/agent-overview>
-- <https://docs.trae.cn/ide/skills#8be9a856>

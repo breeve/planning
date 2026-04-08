@@ -50,6 +50,8 @@ project-docs
 1. **Markdown生成**：生成标准Markdown格式
 2. **元数据整理**：整理并输出文件元数据
 3. **质量检查**：检查输出内容完整性
+4. **保存输出**：将Markdown文件保存到项目根目录下的 `docs/ai/` 目录
+5. **提交审查**：调用Reviewer Agent对输出内容进行审查
 
 ## 支持的文件格式
 
@@ -97,6 +99,17 @@ project-docs
 
 ## 输出要求
 
+### 输出目录
+- 所有Markdown输出文件必须保存到项目根目录下的 `docs/ai/` 目录
+- 文件命名规范：使用英文命名，遵循kebab-case（如 `analysis-report.md`）
+- 如果目录不存在，需要先创建目录
+
+### 审查流程
+- 完成Markdown生成后，必须调用Reviewer Agent进行审查
+- 审查内容：格式规范性、内容完整性、结构合理性
+- 审查通过后，输出才算完成
+- 审查不通过时，根据反馈进行调整后重新提交审查
+
 ### Markdown格式规范
 - 使用标准Markdown语法
 - 标题层级清晰（H1-H6）
@@ -134,7 +147,10 @@ size: 文件大小
 完成文档处理后，返回：
 - **source_files**：处理的文件列表及格式类型
 - **output_format**：输出格式说明
+- **output_path**：输出文件保存路径（docs/ai/目录下）
 - **conversion_result**：转换结果摘要
+- **review_result**：Reviewer审查结果（approve/needs_modification/reject）
+- **review_feedback**：审查反馈内容
 - **issues**：遇到的问题及解决方案
 - **markdown_output**：生成的Markdown内容
 

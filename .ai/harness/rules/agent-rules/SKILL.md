@@ -7,21 +7,21 @@ description: Agent通用规则定义，定义Agent工作时需要遵守的规范
 
 本文件定义了Agent在工作时应遵守的通用规则。
 
-## 规则1：中间文件规则
+## 规则1：临时文件目录
 
-**规则**：所有Agent在工作的时候，其输出如果会产生中间文件，都需要放到 `.ai/tmp/` 目录下
+**规则**：所有临时文件应保存到工程根目录的 `.tmp/ai/` 目录下
 
 **说明**：
-- 中间文件是指处理过程中的临时文件，非最终交付物
-- 每个Agent在处理任务前，应先创建 `.ai/tmp/` 目录（如果不存在）
-- 中间文件包括：审查输入、审查报告、临时分析文件等
-- 任务完成后，根据需要决定是否清理中间文件
+- 临时文件是指处理过程中的中间文件，非最终交付物
+- 每个Agent在处理任务前，应先创建 `.tmp/ai/` 目录（如果不存在）
+- 临时文件包括：审查输入、审查报告、临时分析文件等
+- 任务完成后，根据需要决定是否清理临时文件
 
 **示例**：
 ```
-.ai/tmp/reviewer_input.md
-.ai/tmp/reviewer_report.md
-.ai/tmp/temp_analysis.md
+.tmp/ai/reviewer_input_20260101_120000.md
+.tmp/ai/reviewer_report_20260101_120500.md
+.tmp/ai/temp_analysis_20260101_121000.md
 ```
 
 ## 规则2：输出目录规则
@@ -30,8 +30,8 @@ description: Agent通用规则定义，定义Agent工作时需要遵守的规范
 
 **说明**：
 - **Docs Agent**：最终输出保存到 `docs/ai/` 目录
-- **其他 Agent**（search, engineering, system-planner, reviewer）：仅输出中间文件到 `.ai/tmp/`，不产生最终输出
-- 其他 Agent 如需输出审查结果或报告，也保存到 `.ai/tmp/`
+- **其他 Agent**（search, engineering, system-planner, reviewer）：仅输出临时文件到 `.tmp/ai/`，不产生最终输出
+- 其他 Agent 如需输出审查结果或报告，也保存到 `.tmp/ai/`
 
 **示例**：
 ```
@@ -39,12 +39,31 @@ description: Agent通用规则定义，定义Agent工作时需要遵守的规范
 docs/ai/analysis-report.md
 docs/ai/architecture-diagram.svg
 
-# 其他 Agent 中间输出
-.ai/tmp/reviewer_input.md
-.ai/tmp/analysis_result.md
+# 其他 Agent 临时输出
+.tmp/ai/reviewer_input_20260101_120000.md
+.tmp/ai/analysis_result_20260101_121000.md
 ```
 
-## 规则3：文件命名规范
+## 规则3：唯一文件名规则
+
+**规则**：每个任务的输入输出文件应使用唯一文件名，避免覆盖
+
+**说明**：
+- 文件名格式：`任务类型_时间戳.md`（如 `review_input_20260101_120000.md`）
+- 时间戳格式：YYYYMMDD_HHMMSS
+- 任务类型：review_input, review_report, analysis, plan 等
+
+**示例**：
+```
+# 审查任务
+.tmp/ai/review_input_20260101_120000.md
+.tmp/ai/review_report_20260101_120500.md
+
+# 分析任务
+.tmp/ai/analysis_20260101_121000.md
+```
+
+## 规则4：文件命名规范
 
 - 使用英文命名
 - 遵循 kebab-case（如 `analysis-report.md`）
